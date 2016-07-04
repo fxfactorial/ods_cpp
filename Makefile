@@ -1,6 +1,6 @@
 cc := clang++
 
-flags := -std=c++14 -stdlib=libc++ -Wall -Wextra \
+flags := -O0 -std=c++14 -stdlib=libc++ -g -Wall -Wextra \
 -fsanitize=address -fno-omit-frame-pointer \
 -fsanitize=undefined-trap -fsanitize-undefined-trap-on-error
 
