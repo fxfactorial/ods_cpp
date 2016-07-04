@@ -29,14 +29,6 @@ private:
 public:
   double_linked_list(void) { dummy.next = &dummy; dummy.prev = &dummy; }
 
-  auto cycle(size_t times)
-  {
-    auto handle = dummy.next, count = 0;
-    do {
-      std::cout << "Data: " << handle.x;
-    } while (handle = handle.next, count++, count < times);
-  }
-
   auto get(size_t index) { return get_node_at_index(index); }
 
   auto set(size_t index, T new_item)
@@ -64,6 +56,17 @@ public:
     add_before(get_node_at_index(i), x);
   }
 
+  auto remove(size_t i)
+  {
+    node<T> *w = get_node_at_index(i);
+    T x = w->data;
+    w->prev->next = w->next;
+    w->next->prev = w->prev;
+    delete w;
+    n--;
+    return x;
+  }
+
 };
 
 int main(void)
@@ -72,6 +75,9 @@ int main(void)
     using std::string;
     double_linked_list<string> handle{};
     handle.add(0, "Hello");
+    handle.remove(1);
+    // handle.cycle(3, [](auto item){ std::cout << "Data: " << item << std::endl; });
   }
+
   return 0;
 }

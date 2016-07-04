@@ -1,6 +1,9 @@
 cc := clang++
+
 flags := -std=c++14 -stdlib=libc++ -Wall -Wextra \
--fsanitize=address -fno-omit-frame-pointer #-fsanitize=undefined
+-fsanitize=address -fno-omit-frame-pointer \
+-fsanitize=undefined-trap -fsanitize-undefined-trap-on-error
+
 execs := chapter_two chapter_three chapter_three_double_list
 # Just keep it simple
 .PHONY: all clean

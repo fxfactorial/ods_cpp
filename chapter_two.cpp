@@ -2,6 +2,7 @@
 #include <string>
 #include <exception>
 #include <algorithm>
+#include <vector>
 
 template <typename T>
 class array {
@@ -10,7 +11,7 @@ private:
   size_t length_ = 0;
 public:
   size_t length(void) { return length_; }
-
+  array(void) {};
   array(size_t len)
   {
     length_ = len;
@@ -19,7 +20,7 @@ public:
 
   T& operator[](size_t i)
   {
-    if (i > length_) throw std::out_of_range{"Out of range"};
+    if (i >= length_) throw std::out_of_range{"Out of range"};
     return a[i];
   }
 
@@ -46,6 +47,12 @@ public:
 
   T& get(size_t i) { return a[i]; }
 
+  T& peak(void) { return a[0]; };
+
+  void push(T item) { add(n, item); }
+
+  T& pop(void) { return remove(n - 1); }
+
   // Gives back the old value;
   T set(size_t i, T x)
   {
@@ -64,6 +71,8 @@ public:
   void add(size_t i, T x)
   {
     if (n + 1 > a.length()) resize ();
+    // Push everything to the right by 1 spot, the previous call to
+    // resize ensures that we'll always have enough space.
     for (size_t j = n; j > i; j--) a[j] = a[j - 1];
     a[i] = x;
     n++;
@@ -71,9 +80,11 @@ public:
 
   T& remove(size_t i)
   {
-    T x = a[i];
+    T& x = a[i];
     for (size_t j = i; j < n - 1; j++) a[j] = a[j + 1];
+    // Push everything to the left by one spot
     n--;
+    // If the array is getting way too small then we resize
     if (a.length() >= 3 * n) resize();
     return x;
   }
@@ -111,9 +122,15 @@ private:
 
 int main(void)
 {
+  using namespace std::string_literals;
+  using std::string;
 
-  array_stack<char> this_stack{11};
+  array_stack<char> handle{10};
+  handle.push('a');
+  handle.push('b');
+  handle.push('c');
+  std::cout << handle.pop() << std::endl;
+  std::cout << handle.pop() << std::endl;
 
-  this_stack.add(2, 'e');
   return 0;
 }
