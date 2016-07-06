@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 
+#include "chapter_two.cpp"
+
 template<typename T>
 struct node {
   T data;
@@ -69,14 +71,40 @@ public:
 
 };
 
+template <typename T>
+class bounded_deque : public array_deque<T> {
+public:
+
+  bounded_deque(size_t b)
+  {
+    this->n = 0;
+    this->j = 0;
+    array<T> z(b + 1);
+    this->a = z;
+  }
+
+  void add(size_t i, T x) { array_deque<T>::add(i, x); }
+  bool add(T x) { array_deque<T>::add(this->size(), x); return true;}
+  void resize() { }
+
+};
+
+
 int main(void)
 {
+  using std::string;
+
   {
-    using std::string;
+    using namespace std::string_literals;
     double_linked_list<string> handle{};
+    array<string> foo{10};
     handle.add(0, "Hello");
-    handle.remove(1);
+    // handle.remove(1);
     // handle.cycle(3, [](auto item){ std::cout << "Data: " << item << std::endl; });
+  }
+
+  {
+    bounded_deque<string> b_queue{5};
   }
 
   return 0;

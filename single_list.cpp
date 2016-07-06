@@ -50,12 +50,12 @@ public:
 
 };
 
-int main(void)
-{
-  using std::string;
-  auto handle = new list<string>{};
-  handle->add("Hello");
-  handle->add("More");
+// int main(void)
+// {
+//   using std::string;
+//   auto handle = new list<string>{};
+//   handle->add("Hello");
+//   handle->add("More");
 
-  return 0;
-}
+//   return 0;
+// }

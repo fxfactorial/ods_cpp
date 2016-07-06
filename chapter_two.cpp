@@ -156,7 +156,7 @@ private:
 
 template<typename T>
 class array_deque {
-private:
+protected:
   array<T> a;
   size_t j, n;
 public:
@@ -210,6 +210,8 @@ public:
     if (3 * n < a.length()) resize();
     return x;
   }
+
+  size_t size(void) { return n; }
 };
 
 template<typename T>
@@ -235,22 +237,46 @@ public:
       return back.set(i - front.size(), x);
   }
 
+  void balance(void)
+  {
+    // TODO
+  }
+
+  void add(size_t i, T x)
+  {
+    if (i < front.size())
+      front.add(front.size() - i, x);
+    else
+      back.add(i - front.size(), x);
+    balance();
+  }
+
+  T& remove(size_t i)
+  {
+    T *x;
+    if (i < front.size())
+      x = front.remove(front.size() - i - 1);
+    else
+      x = back.remove(i - front.size());
+    balance();
+    return x;
+  }
 };
 
-auto&& range(size_t upto)
-{
-  std::vector<int> handle(upto);
-  std::iota(std::begin(handle), std::end(handle), 0);
-  return std::move(handle);
-}
+// auto&& range(size_t upto)
+// {
+//   std::vector<int> handle(upto);
+//   std::iota(std::begin(handle), std::end(handle), 0);
+//   return std::move(handle);
+// }
 
-int main(void)
-{
-  using namespace std::string_literals;
-  using std::string;
+// int main(void)
+// {
+//   using namespace std::string_literals;
+//   using std::string;
 
-  for (auto& h : range(10))
-    std::cout << "Data: " << h;
+  // for (auto& h : range(10))
+  //   std::cout << "Data: " << h;
   // std::cout << std::endl;
   // std::vector<int> x(10);
   // std::iota(std::begin(x), std::end(x), 0);
@@ -274,5 +300,5 @@ int main(void)
   // std::cout << '\n';
 
 
-  return 0;
-}
+//   return 0;
+// }
